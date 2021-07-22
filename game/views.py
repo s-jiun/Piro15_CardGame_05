@@ -31,13 +31,11 @@ def main(request):
 
 def game_attack(request, pk):
     if request.method == "POST":
-        form = CardGameForm(request.POST)
-        if form.is_valid():
-            result = form.save()
-            return redirect('game:game_result')
+        CardGame(host = request.user, guest= User.objects.get(username=request.POST['picked_cp']), host_card=request.POST['picked_card']).save()
+
+        return redirect('game:game_result')
         #random_list = User.objects.get(id=pk).random_card_num()
     else:
-        form = CardGameForm()
         random_list = random.sample(range(1, 11), 5)
         counters = User.objects.all()
         # ctx = {
@@ -45,7 +43,7 @@ def game_attack(request, pk):
         #     'counters' : counters,
         # }
     return render(request, "game/attack.html", {'random_list': random_list,
-            'counters' : counters, 'form': form,})
+            'counters' : counters,})
 
 
 class LoginView(View):

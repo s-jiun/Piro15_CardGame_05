@@ -22,7 +22,7 @@
     <label for="picked_cp">상대방</label>
     <select name="picked_cp">
         {% for cp in counters %}
-        <option value="{{cp}}">{{cp}}</option>
+            <option value="{{cp}}">{{cp}}</option>
         {% endfor %}
     </select>
     {% comment %} <a href= "{% url "game:game_result" %}">공격하기!</a> {% endcomment %}
