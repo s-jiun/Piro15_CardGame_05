@@ -1,6 +1,6 @@
 from django import forms
 from . import models
-from .models import User, Card
+from .models import User, CardGame
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
@@ -24,7 +24,7 @@ class UserForm(forms.ModelForm):
         model = User
         fields = '__all__'
 
-class CardForm(forms.ModelForm):
+class CardGameForm(forms.ModelForm):
     class Meta:
-        model = Card
+        model = CardGame
         fields = '__all__'
