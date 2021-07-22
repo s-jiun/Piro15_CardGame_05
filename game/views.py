@@ -1,10 +1,10 @@
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import CardGame, User
 from django.views import View
 from . import forms
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -33,7 +33,7 @@ class LoginView(View):
         ctx = {
             "form": form,
         }
-        return render(request, "game/login.html", ctx)
+        return render(request, "game/login.html", context=ctx)
 
     def post(self, request):
         form = forms.LoginForm(request.POST)
