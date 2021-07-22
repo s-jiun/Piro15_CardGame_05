@@ -38,7 +38,6 @@ class CardGame(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
 class User(AbstractUser):
     name = models.CharField(max_length=50)
     record = models.CharField(max_length=50) #전적?
