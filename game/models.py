@@ -5,7 +5,7 @@ from random import randint
 
 # Create your models here.
 class User(models.Model):
-    username = models.CharField(max_length=50)
+    username = models.CharField(max_length=50, default='')
 
     score = models.IntegerField(default=0)
 
