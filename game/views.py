@@ -5,8 +5,6 @@ from django.views import View
 from . import forms
 from django.contrib.auth import authenticate, login, logout
 
-
-
 # Create your views here.
 def game_info(request, pk):
     info = CardGame.objects.get(id=pk)

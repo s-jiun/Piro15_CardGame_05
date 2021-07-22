@@ -9,10 +9,9 @@ urlpatterns = [
     path('info/<int:pk>', views.game_info, name='game_info' ),
     path('result/', views.game_result, name ='game_result'),
     path('podium/', views.game_podium, name='game_podium'),
-  # main
     path("", views.main, name="main"),
-    # # login
     path("login/", views.LoginView.as_view(), name="login"),
-    # # logout
     path("logout/", views.log_out, name="logout"),
+    #path("attack/", views.attack, name ="attack"), 게임하기
+    
 ]
