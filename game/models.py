@@ -36,7 +36,3 @@ class CardGame(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def random_card_num(self):
-        random_list = random.sample(range(1, 11), 5)
-        return random_list
-

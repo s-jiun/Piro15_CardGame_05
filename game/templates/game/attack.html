@@ -3,20 +3,29 @@
 {% block content %}
 
 <body>
-
-    <h3>현재 플레이어: {{user.name}}</h3> 
+    <hr/>
+    <hr/>
+    <hr/>
+    <hr/>
+<form action="" method="POST">
+    {% csrf_token %}
+    <h3>현재 플레이어: {{user.username}}</h3> 
 
     <label for="picked_card">내가 고른 카드</label>
-    <select name="picked_card">
-        {% for num in counter %}
-        <option value="{{num}}">{{num.random_card_num() }}</option>
-    </select>
 
+    <select name="picked_card">
+        {% for num in random_list %}
+        <option value="{{num}}">{{num}}</option>
+        {% endfor %}
+    </select>
+    <hr/>
     <label for="picked_cp">상대방</label>
     <select name="picked_cp">
-        {% for cp in random_list %}
+        {% for cp in counters %}
         <option value="{{cp}}">{{cp}}</option>
+        {% endfor %}
     </select>
-    <input type="submit" value="반격하기!">
-
+    {% comment %} <a href= "{% url "game:game_result" %}">공격하기!</a> {% endcomment %}
+    <a href= "{% url "game:game_result" %}"><input type="submit" value="공격하기"  /></a>
+</form>
 {% endblock %}
