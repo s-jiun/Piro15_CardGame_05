@@ -1,0 +1,13 @@
+{% extends 'game/dashbord.html' %}
+
+{% block content %}
+
+    <h3>Piro 명예의 전당 </h3>
+
+{% comment %} TODO: 등수 표현하기 {% endcomment %}
+
+    {% for user in users %}
+        {{ user.name }} ! 총점수: {{ user.score }}
+        
+    {% endfor %}    
+{% endblock %}
