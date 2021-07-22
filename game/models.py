@@ -1,11 +1,12 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.enums import Choices
+from django.contrib.auth.models import AbstractUser
 from random import randint
 
 # Create your models here.
-class User(models.Model):
-    email = models.CharField(max_length=50)
+class User(AbstractUser):
+    email = models.EmailField(max_length=50)
     password = models.CharField(max_length=50)
     score = models.IntegerField(default=0)
 
