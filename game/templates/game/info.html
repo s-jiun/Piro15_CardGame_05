@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <ul>
+        <li>
+            {{ info.pk }} - {{ info.player1 }} vs {{ info.player2 }}
+        </li>
+
+        <li>
+        {{ info.rule }}
+        </li>
+
+        <li>
+        {{ info.player1 }} : {{ info.player1_card}}
+        </li>
+
+        <li>
+        {{ info.player2 }} : {{ info.player2_card}}
+        </li>
+
+        <li>
+            결과: {{ info.result }}
+        </li>
+
+        <li>
+            점수: {{ info.my_score }}
+        </li>
+
+
+    </ul>
+    <p>
+        전적 목록
+    </p>
+
+    
+
+
+{% endblock content %}
+
+

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h1>게임 전적</h1>
+
+    <span>현재 플레이어의 게임 전적을 보여주는 페이지입니다.</span>
+    <hr/>
+
+    <h3>현재 플레이어: {{user.username}}</h3> 
+
+    {% for game in results %}
+        <div>
+            <span>{{game.pk}}-{{game.host}} VS {{game.guest}}</span>
+            
+            {% comment %} {% if game.ended %} {% endcomment %}
+                <span>결과: {{game.result}}</span>
+            {% comment %} {% else %} {% endcomment %}
+                {% comment %} <span><a href="">반격하기</a></span> {% endcomment %}
+            {% comment %} {%endif%} {% endcomment %}
+
+            <span><a href="">게임정보</a></span>
+        </div>
+
+    {% endfor %}
+    
+{% endblock %}

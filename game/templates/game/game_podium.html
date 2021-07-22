@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <hr/><hr/><hr/><hr/><hr/><hr/>
+    <h3>Piro 명예의 전당 </h3>
+
+    {% for user in users %}
+        {{ user.username}} ! 총점수: {{ user.score }}
+        <br>
+        
+    {% endfor %}    
+
+{% endblock %}
