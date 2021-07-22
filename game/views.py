@@ -27,6 +27,16 @@ def game_podium(request):
 def main(request):
     return render(request, "game/main.html")
 
+def game_attack(request, pk):
+    counter = User.objects.exclude(id=pk)
+    random_list = User.objects.get(id=pk).random_card_num()
+    ctx = {
+        'random_list': random_list,
+        'counter' : counter,
+    }
+    return render(request, "game/attack.html", context=ctx)
+
+
 class LoginView(View):
     def get(self, request):
         form = forms.LoginForm()

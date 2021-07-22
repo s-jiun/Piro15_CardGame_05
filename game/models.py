@@ -3,6 +3,7 @@ from django.db.models.deletion import CASCADE
 from django.db.models.enums import Choices
 from django.contrib.auth.models import AbstractUser
 from random import randint
+import random
 
 # Create your models here.
 class User(AbstractUser):
@@ -12,6 +13,7 @@ class User(AbstractUser):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 class CardGame(models.Model):
     MORE = '숫자가 더 큰 사람'
     LESS = '숫자가 더 적은 사람'
@@ -33,4 +35,8 @@ class CardGame(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def random_card_num(self):
+        random_list = random.sample(range(1, 11), 5)
+        return random_list
 

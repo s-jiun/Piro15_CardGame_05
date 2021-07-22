@@ -15,4 +15,5 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     # # logout
     path("logout/", views.log_out, name="logout"),
+    path('attack/<int:pk>/', views.game_attack, name='attack'),
 ]
