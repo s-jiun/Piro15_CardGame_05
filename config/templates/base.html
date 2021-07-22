@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="height: 70px; background-color: #e3f2fd;">
             <div class="container-fluid">
-                <a class="navbar-brand teal-400" href="#">PIROGRAM CARDGAME</a>
+                <a class="navbar-brand teal-400" href="{% url 'game:main' %}">PIROGRAM CARDGAME</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -20,17 +20,17 @@
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">게임하기</a>
+                                <a class="nav-link active" aria-current="page" href="{% url 'game:attack' pk=user.pk%}">게임하기</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">랭킹보기</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">로그아웃</a>
+                                <a class="nav-link" href="{% url 'game:logout' %}">로그아웃</a>
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="#">로그인</a>
+                                <a class="nav-link" href="{% url 'game:login' %}">로그인</a>
                             </li>
                         {% endif %}
                     </ul>
