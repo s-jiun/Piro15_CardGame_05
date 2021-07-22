@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 from django.db.models.enums import Choices
 from random import randint
 
@@ -41,7 +41,7 @@ class CardGame(models.Model):
 class User(AbstractUser):
     name = models.CharField(max_length=50)
     record = models.CharField(max_length=50) #전적?
-    selected_card = models.ForeignKey(Card, on_delete=models.CASCADE) #선택한 카드
+    selected_card = models.ForeignKey(CardGame, on_delete=models.CASCADE) #선택한 카드
     result = models.CharField(max_length=10) #경기 결과 승/패
     score = models.IntegerField()
     rank = models.PositiveIntegerField() #전체 랭킹
