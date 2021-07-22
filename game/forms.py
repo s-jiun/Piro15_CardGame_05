@@ -24,7 +24,7 @@ class UserForm(forms.ModelForm):
         model = User
         fields = '__all__'
 
-class CardForm(forms.ModelForm):
+class CardGameForm(forms.ModelForm):
     class Meta:
         model = CardGame
         fields = '__all__'
