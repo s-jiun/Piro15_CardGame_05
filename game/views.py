@@ -1,6 +1,10 @@
-
 from django.shortcuts import render
 from .models import CardGame, User
+from django.views import View
+from . import forms
+from django.contrib.auth import authenticate, login, logout
+
+
 
 # Create your views here.
 def game_info(request, pk):

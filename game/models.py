@@ -1,20 +1,17 @@
 from django.db import models
-
+from django.db.models.deletion import CASCADE
 from django.db.models.enums import Choices
 from random import randint
 
 # Create your models here.
+class User(models.Model):
+    email = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
+    score = models.IntegerField(default=0)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 class CardGame(models.Model):
-    WIN = '승리'
-    LOSE = '패배'
-    DRAW = '무승부'
-
-    RESULT_CHOICES = (
-        (WIN, '승리'),
-        (LOSE, '패배'),
-        (DRAW, '무승부'),
-        )
-
     MORE = '숫자가 더 큰 사람'
     LESS = '숫자가 더 적은 사람'
 
@@ -23,29 +20,15 @@ class CardGame(models.Model):
         (LESS, '숫자가 더 적은 사람')
     )
 
-    player1 = models.CharField(max_length=50)
-    player2 = models.CharField(max_length=50)
+    host = models.ForeignKey(User, on_delete=CASCADE, related_name='game_host')
+    guest = models.ForeignKey(User, on_delete=CASCADE, related_name='game_guest')
 
-    player1_card = models.PositiveIntegerField(randint(1,10))
-    player2_card = models.PositiveIntegerField(randint(1,10))
+    host_card = models.PositiveIntegerField(default=0)
+    guest_card = models.PositiveIntegerField(default=0)
 
     rule = models.CharField(max_length=50, choices=RULE_CHOICES )
 
-    result = models.CharField(max_length=50, choices=RESULT_CHOICES)
-
-    my_score = models.PositiveIntegerField()
+    result = models.CharField(max_length=50)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-class User(AbstractUser):
-    name = models.CharField(max_length=50)
-    record = models.CharField(max_length=50) #전적?
-    selected_card = models.ForeignKey(Card, on_delete=models.CASCADE) #선택한 카드
-    result = models.CharField(max_length=10) #경기 결과 승/패
-    score = models.IntegerField()
-    rank = models.PositiveIntegerField() #전체 랭킹
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
