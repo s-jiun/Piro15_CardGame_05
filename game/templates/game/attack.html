@@ -9,13 +9,15 @@
     <label for="picked_card">내가 고른 카드</label>
     <select name="picked_card">
         {% for num in counter %}
-        <option value="{{num}}">{{num.random_card_num() }}</option>
+        <option value="{{num}}">{{num }}</option>
+        {% endfor %}
     </select>
 
     <label for="picked_cp">상대방</label>
     <select name="picked_cp">
         {% for cp in random_list %}
-        <option value="{{cp}}">{{cp}}</option>
+        <option value="{{cp}}">{{cp.username}}</option>
+        {% endfor %}
     </select>
     <input type="submit" value="반격하기!">
 

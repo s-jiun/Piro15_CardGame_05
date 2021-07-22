@@ -29,7 +29,7 @@ def main(request):
 
 def game_attack(request, pk):
     counter = User.objects.exclude(id=pk)
-    random_list = User.objects.get(id=pk).random_card_num()
+    random_list = User.objects.get(id=pk)
     ctx = {
         'random_list': random_list,
         'counter' : counter,
