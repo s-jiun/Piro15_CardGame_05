@@ -15,35 +15,40 @@ def game_info(request, pk):
     ctx = {'info': info}
     return render(request, 'game/info.html', context=ctx)
 
+
 def game_result(request):
     results = CardGame.objects.all()
     ctx = {'results': results}
     return render(request, 'game/result.html', context=ctx)
 
+
 def game_podium(request):
-# 점수에 따라 ordering하여 가져옴
-    users  = User.objects.all()
+    # 점수에 따라 ordering하여 가져옴
+    users = User.objects.all()
     ctx = {'users': users}
     return render(request, 'game/game_podium.html', context=ctx)
+
 
 def main(request):
     return render(request, "game/main.html")
 
+
 def game_attack(request, pk):
     if request.method == "POST":
-        CardGame(host = request.user, guest= User.objects.get(username=request.POST['picked_cp']), host_card=request.POST['picked_card']).save()
+        CardGame(host=request.user, guest=User.objects.get(
+            username=request.POST['picked_cp']), host_card=request.POST['picked_card']).save()
 
         return redirect('game:game_result')
         #random_list = User.objects.get(id=pk).random_card_num()
     else:
         random_list = random.sample(range(1, 11), 5)
-        counters = User.objects.all()
+        counters = User.objects.exclude(pk=pk)
         # ctx = {
         #     'random_list': random_list,
         #     'counters' : counters,
         # }
     return render(request, "game/attack.html", {'random_list': random_list,
-            'counters' : counters,})
+                                                'counters': counters, })
 
 
 class LoginView(View):
@@ -67,7 +72,7 @@ class LoginView(View):
 
         return render(request, "game/login.html", {"form": form})
 
+
 def log_out(request):
     logout(request)
     return render(request, "game/main.html")
-
