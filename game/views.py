@@ -1,10 +1,12 @@
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import CardGame, User
 from django.views import View
+from .forms import UserForm, CardGameForm
 from . import forms
 from django.contrib.auth import authenticate, login, logout
-
+import random
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -26,6 +28,25 @@ def game_podium(request):
 
 def main(request):
     return render(request, "game/main.html")
+
+def game_attack(request, pk):
+    if request.method == "POST":
+        form = CardGameForm(request.POST)
+        if form.is_valid():
+            result = form.save()
+            return redirect('game:game_result')
+        #random_list = User.objects.get(id=pk).random_card_num()
+    else:
+        form = CardGameForm()
+        random_list = random.sample(range(1, 11), 5)
+        counters = User.objects.all()
+        # ctx = {
+        #     'random_list': random_list,
+        #     'counters' : counters,
+        # }
+    return render(request, "game/attack.html", {'random_list': random_list,
+            'counters' : counters, 'form': form,})
+
 
 class LoginView(View):
     def get(self, request):
