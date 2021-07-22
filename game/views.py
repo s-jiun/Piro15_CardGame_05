@@ -46,4 +46,3 @@ class LoginView(View):
 def log_out(request):
     logout(request)
     return render(request, "game/main.html")
-
