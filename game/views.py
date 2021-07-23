@@ -54,8 +54,38 @@ def game_counterattack(request, pk):
     if request.method == "POST":
         game = CardGame.objects.get(id=pk)
         game.guest_card = request.POST['picked_card']
+
         
+        rules = ['more', 'less']
+        rand_rule = random.choice(rules)
+        game.rule = rand_rule
         game.is_end = True
+
+        if rand_rule == 'more':
+            if game.host_card > game.guest_card:
+                game.result = 'win'
+                
+            elif game.host_card == game.guest_card:
+                game.result = 'draw'
+            else:
+                game.result = 'lose'
+        else:
+            if game.host_card < game.guest_card:
+                game.result = 'win'
+            elif game.host_card == game.guest_card:
+                game.result = 'draw'
+            else:
+                game.result = 'lose'
+        if game.result == 'win':
+            game.host.score += game.host_card
+            game.guest.score -= game.guest_card
+
+        elif game.result == 'lose':
+            game.host.score -= game.host_card
+            game.guest.score += game.guest_card
+
+        game.host.save()
+        game.guest.save()
         game.save()
 
         return redirect('game:game_result')

@@ -28,14 +28,24 @@
 
                 {% comment %} {% if user.username == game.host %} {% endcomment %}
                 {% else %}
-                    {% comment %} <a href="{% url 'game:counterattack' %}">반격 하기</a> {% endcomment %}
-                    반격 하기
+                    <a href="{% url 'game:counterattack' %}">반격 하기</a>
                     
 
                 {% endif %}
-            {% else %}
+            {% else %}                
+                {% if user.username == game.host.username %}
+                    {{ game.result }}
 
-                게임 종료
+
+                {% else %}
+                    {% if game.result == 'win' %}
+                        lose
+                    {% elif game.result == 'lose' %}
+                        win
+                    {% else %}
+                        draw
+                    {% endif %}
+                {% endif %}
             {% endif %}
                 
 
