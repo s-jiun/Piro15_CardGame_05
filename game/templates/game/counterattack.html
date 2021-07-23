@@ -9,12 +9,13 @@
     <br/>
     <br/>
     <br/>
-    <div class="d-flex justify-content-center align-items-center attack-box" style="margin-top: 200px; height: 345px; margin-bottom: 216px;">
+    <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 200px; height: 345px;">
+        <i class="fas fa-gamepad fa-4x" style="color: orange;"></i>
         <form action="" method="POST" style="width: 450px;">
             {% csrf_token %}
             <h3>{{game.host}}에게 반격하세요!</h3>
 
-            <hr/>
+            <hr style="height: 2px;" />
 
             <h3>현재 플레이어: {{user.name}}</h3> 
 

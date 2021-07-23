@@ -3,13 +3,16 @@
 {% block content %}
 
 
-    <hr/><hr/><hr/><hr/><hr/><hr/>
-    <h3>Piro 명예의 전당 </h3>
-    
-    {% for user in users %}
-        랭킹 : {{user.rank }} 등 : {{ user.username}} 님 ! 총점수: {{ user.score }}
-        <br>
+    <br/><br/><br/><br/><br/><br/>
+    <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 80px; height: 345px;">
+        <i class="fas fa-gamepad fa-4x" style="color: orange;"></i>
+        <br />
+        <h3>Piro 명예의 전당 </h3>
         
-    {% endfor %}    
+        {% for user in users %}
+            <p style="font-size: 25px;">랭킹 {{user.rank }} 등 : {{ user.username}} 님 !  [ 총점수: {{ user.score }} ] </p>
+        {% endfor %}  
+        <hr style="height: 2px;" />
+    </div>
 
 {% endblock %}
