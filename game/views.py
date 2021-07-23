@@ -73,3 +73,7 @@ def log_out(request):
     logout(request)
     return render(request, "game/main.html")
 
+def game_delete(request, pk):
+    game = CardGame.objects.get(id=pk)
+    game.delete()
+    return redirect('game:game_result')
