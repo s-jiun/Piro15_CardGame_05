@@ -21,14 +21,13 @@
                 {% if game.is_end == False %}
                     {% if user.username == game.host.username %}
                         진행중...
-                        <a href="{% url 'game:game_delete' game.id %}" class="btn btn-outline-danger">게임 취소</a>
-                    {% comment %} {% if user.username == game.host %} {% endcomment %}
+                        <a href="{% url 'game:game_delete' game.id %}" class="btn btn-sm btn-outline-danger" style="margin-left: 20px;">게임 취소</a>
                     {% else %}
-                        <a href="{% url 'game:counterattack' game.pk %}" class="btn btn-outline-danger">반격 하기</a>
+                        <a href="{% url 'game:counterattack' game.pk %}" class="btn btn-sm btn-outline-danger">반격 하기</a>
                     {% endif %}
                 {% else %}   <!--게임이 끝났을 때-->       
                 {% comment %} {{ game.rule }} {% endcomment %}
-                    {% if user.username == game.host.username %} <!--??-->
+                    {% if user.username == game.host.username %} 
                         {{ game.result }}
                     {% else %}
                         결과 :
@@ -42,7 +41,7 @@
                     {% endif %}
                 {% endif %}
                     
-                <span><a href="{% url 'game:game_info' game.pk %}" class="btn btn-outline-success">게임정보</a></span>
+                <span><a href="{% url 'game:game_info' game.pk %}" class="btn btn-sm btn-outline-success">게임정보</a></span>
             </div>
 
         {% endfor %}
