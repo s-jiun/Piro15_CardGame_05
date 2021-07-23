@@ -11,13 +11,13 @@
 
                 {% if user.is_authenticated %}
                     <p class="fw-bolder">{{user.username}} 님이 로그인 중</p>
+                    <br><br>
+                    <h4><a href="{% url 'game:attack' %}" class="btn btn-outline-success">게임하기</a></h4>
+                    <h4><a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적보기</a></h4>
                 {%else%}
                     <a class="nav-link" href="{% url 'game:login' %}">로그인</a>
-                    <a class="nav-link" href="/accounts/signup'">회원가입</a>
+                    <a class="nav-link" href="/accounts/signup">회원가입</a>
                 {%endif %}
-                <br><br>
-                <h4><a href="{% url 'game:attack' %}" class="btn btn-outline-success">게임하기</a></h4>
-                <h4><a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적보기</a></h4>
                 </div>
             </div>
         </div>
