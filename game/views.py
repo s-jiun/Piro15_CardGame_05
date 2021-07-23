@@ -103,7 +103,7 @@ def game_counterattack(request, pk):
 
         game.host.save()
         game.guest.save()
-        game.save()
+        
 
         return redirect('game:game_result')
         #random_list = User.objects.get(id=pk).random_card_num()
