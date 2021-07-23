@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <hr/>
+    <hr/>
+    <hr/>
+    <hr/>
+
 
   <h1>게임 전적</h1>
 
@@ -14,10 +19,36 @@
             <span>{{game.pk}}-{{game.host}} VS {{game.guest}}</span>
             
             {% comment %} {% if game.ended %} {% endcomment %}
-                <span>결과: {{game.result}}</span>
-            {% comment %} {% else %} {% endcomment %}
-                {% comment %} <span><a href="">반격하기</a></span> {% endcomment %}
-            {% comment %} {%endif%} {% endcomment %}
+            {% if game.is_end == False %}
+                {% if user.username == game.host.username %}
+                    진행중...
+                    {% comment %} <a href="{% url 'game:game_delete' %}">게임 취소</a> {% endcomment %}
+                    게임 취소
+
+
+                {% comment %} {% if user.username == game.host %} {% endcomment %}
+                {% else %}
+                    <a href="{% url 'game:counterattack' game.pk %}">반격 하기</a>
+                    
+
+                {% endif %}
+            {% else %}          
+            {{ game.rule }}      
+                {% if user.username == game.host.username %}
+                    {{ game.result }}
+
+
+                {% else %}
+                    {% if game.result == 'win' %}
+                        lose
+                    {% elif game.result == 'lose' %}
+                        win
+                    {% else %}
+                        draw
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+                
 
             <span><a href="">게임정보</a></span>
         </div>

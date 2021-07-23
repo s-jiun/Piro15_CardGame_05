@@ -17,7 +17,7 @@ def game_info(request, pk):
 
 
 def game_result(request):
-    results = CardGame.objects.all()
+    results = CardGame.objects.filter(host = request.user)|CardGame.objects.filter(guest = request.user)
     ctx = {'results': results}
     return render(request, 'game/result.html', context=ctx)
 
@@ -33,7 +33,7 @@ def main(request):
     return render(request, "game/main.html")
 
 
-def game_attack(request, pk):
+def game_attack(request):
     if request.method == "POST":
         CardGame(host=request.user, guest=User.objects.get(
             username=request.POST['picked_cp']), host_card=request.POST['picked_card']).save()
@@ -42,13 +42,65 @@ def game_attack(request, pk):
         #random_list = User.objects.get(id=pk).random_card_num()
     else:
         random_list = random.sample(range(1, 11), 5)
-        counters = User.objects.exclude(pk=pk)
+        counters = User.objects.exclude(username = request.user.username )
         # ctx = {
         #     'random_list': random_list,
         #     'counters' : counters,
         # }
     return render(request, "game/attack.html", {'random_list': random_list,
                                                 'counters': counters, })
+
+def game_counterattack(request, pk):
+    if request.method == "POST":
+        game = CardGame.objects.get(id=pk)
+        g_card = request.POST['picked_card']
+
+        
+        rules = ['more', 'less']
+        rand_rule = random.choice(rules)
+        game.rule = rand_rule
+        game.is_end = True
+        h_card = int(game.host_card)
+        g_card = int(game.guest_card)
+        if rand_rule == 'more':
+            print(type(h_card))
+            print(type(g_card))
+
+            if h_card > g_card:
+                game.result = 'win'
+                
+            elif h_card == g_card:
+                game.result = 'draw'
+            else:
+                game.result = 'lose'
+        else:
+            if h_card < g_card:
+                game.result = 'win'
+            elif h_card == g_card:
+                game.result = 'draw'
+            else:
+                game.result = 'lose'
+        if game.result == 'win':
+            game.host.score += h_card
+            game.guest.score -= g_card
+
+        elif game.result == 'lose':
+            game.host.score -= h_card
+            game.guest.score += g_card
+
+        game.host.save()
+        game.guest.save()
+        game.save()
+
+        return redirect('game:game_result')
+        #random_list = User.objects.get(id=pk).random_card_num()
+    else:
+        random_list = random.sample(range(1, 11), 5)
+        # ctx = {
+        #     'random_list': random_list,
+        #     'counters' : counters,
+        # }
+    return render(request, "game/counterattack.html", {'random_list': random_list, })
 
 
 class LoginView(View):
