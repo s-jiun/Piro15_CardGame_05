@@ -6,30 +6,28 @@
     <br/>
     <br/>
 
-    <div class='container-fluid d-flex justify-content-center text-center align-items-center flex-column' style="margin-top: 100px; height: 345px;">
+    <div class='container-fluid d-flex justify-content-center text-center align-items-center flex-column' style="height: 345px;">
         <i class="fas fa-gamepad fa-4x" style="color: orange;"></i>
         <br />
         <h1>게임 전적</h1>
 
         <span>현재 플레이어의 게임 전적을 보여주는 페이지입니다.</span>
-        <hr/>
-
-        <h3>현재 플레이어: {{user.username}}</h3> 
+        <p style="font-size: 20px; font-weight: bold;">현재 플레이어: {{user.username}}</p> 
+        <br />
 
         {% for game in results %}
             <div>
-                <span>{{game.pk}}-{{game.host}} VS {{game.guest}}</span>
+                <span style="margin-right: 20px; font-weight: bold;">{{game.pk}}-{{game.host}}  VS  {{game.guest}}</span>
                 {% if game.is_end == False %}
                     {% if user.username == game.host.username %}
                         진행중...
-                        <a href="{% url 'game:game_delete' game.id %}" class="btn btn-outline-danger">게임 취소</a>
-                    {% comment %} {% if user.username == game.host %} {% endcomment %}
+                        <a href="{% url 'game:game_delete' game.id %}" class="btn btn-sm btn-outline-danger" style="margin-left: 20px;">게임 취소</a>
                     {% else %}
-                        <a href="{% url 'game:counterattack' game.pk %}" class="btn btn-outline-danger">반격 하기</a>
+                        <a href="{% url 'game:counterattack' game.pk %}" class="btn btn-sm btn-outline-danger">반격 하기</a>
                     {% endif %}
                 {% else %}   <!--게임이 끝났을 때-->       
                 {% comment %} {{ game.rule }} {% endcomment %}
-                    {% if user.username == game.host.username %} <!--??-->
+                    {% if user.username == game.host.username %} 
                         {{ game.result }}
                     {% else %}
                         결과 :
@@ -43,7 +41,7 @@
                     {% endif %}
                 {% endif %}
                     
-                <span><a href="{% url 'game:game_info' game.pk %}" class="btn btn-outline-success">게임정보</a></span>
+                <span><a href="{% url 'game:game_info' game.pk %}" class="btn btn-sm btn-outline-success">게임정보</a></span>
             </div>
 
         {% endfor %}

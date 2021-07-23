@@ -5,28 +5,25 @@
     <br/>
     <br/>
     <br/>
-    <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 200px; height: 345px;">
+    <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 100px; height: 345px;">
         <i class="fas fa-gamepad fa-4x" style="color: orange;"></i>
         <br />
         <form action="" method="POST" style="width: 450px;">
             {% csrf_token %}
-            <h3>{{game.pk}}-{{game.host}} VS {{game.guest}}</h3>
-
-            <br/>
-            {% comment %} 게임 진행 중인 .. {% endcomment %}
+            <p style="font-weight: bold; font-size: 30px;">{{game.pk}}-{{game.host}} VS {{game.guest}}</p>
             {% if game.is_end == False %}
                 {% if user.username == game.host.username %}
                     진행중...
                     <br />
                     나: {{ game.host_card }}
                     <br />
-                    <a href="{% url 'game:game_delete' game.id %}" class="btn btn-outline-success">게임 취소</a>
+                    <a href="{% url 'game:game_delete' game.id %}" class="btn btn-outline-success" style="margin-bottom: 10px; margin-top: 10px;">게임 취소</a>
                     <br />
-                    <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
+                    <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적 목록</a>
                 {% else %}
                     <a href="{% url 'game:counterattack' game.pk %}" class="btn btn-outline-success">대응하기</a>
                     <hr />
-                    <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
+                    <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적 목록</a>
                 {% endif %}
 
             {% comment %} 게임 끝난 경우  {% endcomment %}
@@ -65,14 +62,14 @@
                 {% endif %}
             {% endif %}
             
-            <hr />
+            <hr style="height: 2px;"/>
                 {% if user.username == game.host.username %}
                     점수: {{ game.host.score }}
                 {% else %}
                     점수: {{ game.guest.score }}
                 {% endif %}
                 <br />
-                <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
+                <a href="{% url 'game:game_result' %}" class="btn btn-outline-success" style="margin-top: 10px;">전적목록</a>
             {% endif %}
         </form>
     </div>
