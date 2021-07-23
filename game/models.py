@@ -3,6 +3,7 @@ from django.db.models.deletion import CASCADE
 from django.db.models.enums import Choices
 from django.contrib.auth.models import AbstractUser
 from random import randint
+import random
 
 # Create your models here.
 class User(AbstractUser):
@@ -12,14 +13,8 @@ class User(AbstractUser):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-class CardGame(models.Model):
-    MORE = '숫자가 더 큰 사람'
-    LESS = '숫자가 더 적은 사람'
 
-    RULE_CHOICES = (
-        (MORE, '숫자가 더 큰 사람'),
-        (LESS, '숫자가 더 적은 사람')
-    )
+class CardGame(models.Model):
 
     host = models.ForeignKey(User, on_delete=CASCADE, related_name='game_host')
     guest = models.ForeignKey(User, on_delete=CASCADE, related_name='game_guest')
@@ -27,7 +22,9 @@ class CardGame(models.Model):
     host_card = models.PositiveIntegerField(default=0)
     guest_card = models.PositiveIntegerField(default=0)
 
-    rule = models.CharField(max_length=50, choices=RULE_CHOICES )
+    is_end = models.BooleanField(default=False)
+
+    rule = models.CharField(max_length=50, blank=True)
 
     result = models.CharField(max_length=50)
 

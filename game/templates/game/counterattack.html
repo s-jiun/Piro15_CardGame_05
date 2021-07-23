@@ -4,7 +4,7 @@
 
 <body>
 
-    <h3>{{game.cp}}에게 반격하세요!</h3>
+    <h3>{{game.host}}에게 반격하세요!</h3>
 
     <hr/>
 
@@ -12,15 +12,10 @@
 
     <label for="picked_card">내가 고른 카드</label>
     <select name="picked_card">
-        {% for num in card_numbers %}
+        {% for num in random_list %}
         <option value="{{num}}">{{num}}</option>
     </select>
 
-    <label for="picked_cp">내가 고른 카드</label>
-    <select name="picked_cp">
-        {% for cp in users %}
-        <option value="{{cp}}">{{cp}}</option>
-    </select>
     <input type="submit" value="반격하기!">
 
 {% endblock %}

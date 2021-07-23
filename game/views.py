@@ -1,10 +1,12 @@
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import CardGame, User
 from django.views import View
+from .forms import UserForm, CardGameForm
 from . import forms
 from django.contrib.auth import authenticate, login, logout
-
+import random
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -13,19 +15,89 @@ def game_info(request, pk):
     ctx = {'info': info}
     return render(request, 'game/info.html', context=ctx)
 
+
 def game_result(request):
     results = CardGame.objects.all()
     ctx = {'results': results}
     return render(request, 'game/result.html', context=ctx)
 
+
 def game_podium(request):
-# 점수에 따라 ordering하여 가져옴
-    users  = User.objects.all()
+    # 점수에 따라 ordering하여 가져옴
+    users = User.objects.all()
     ctx = {'users': users}
     return render(request, 'game/game_podium.html', context=ctx)
 
+
 def main(request):
     return render(request, "game/main.html")
+
+
+def game_attack(request):
+    if request.method == "POST":
+        CardGame(host=request.user, guest=User.objects.get(
+            username=request.POST['picked_cp']), host_card=request.POST['picked_card']).save()
+
+        return redirect('game:game_result')
+        #random_list = User.objects.get(id=pk).random_card_num()
+    else:
+        random_list = random.sample(range(1, 11), 5)
+        counters = User.objects.exclude(username = request.user.username )
+        # ctx = {
+        #     'random_list': random_list,
+        #     'counters' : counters,
+        # }
+    return render(request, "game/attack.html", {'random_list': random_list,
+                                                'counters': counters, })
+
+def game_counterattack(request, pk):
+    if request.method == "POST":
+        game = CardGame.objects.get(id=pk)
+        game.guest_card = request.POST['picked_card']
+
+        
+        rules = ['more', 'less']
+        rand_rule = random.choice(rules)
+        game.rule = rand_rule
+        game.is_end = True
+
+        if rand_rule == 'more':
+            if game.host_card > game.guest_card:
+                game.result = 'win'
+                
+            elif game.host_card == game.guest_card:
+                game.result = 'draw'
+            else:
+                game.result = 'lose'
+        else:
+            if game.host_card < game.guest_card:
+                game.result = 'win'
+            elif game.host_card == game.guest_card:
+                game.result = 'draw'
+            else:
+                game.result = 'lose'
+        if game.result == 'win':
+            game.host.score += game.host_card
+            game.guest.score -= game.guest_card
+
+        elif game.result == 'lose':
+            game.host.score -= game.host_card
+            game.guest.score += game.guest_card
+
+        game.host.save()
+        game.guest.save()
+        game.save()
+
+        return redirect('game:game_result')
+        #random_list = User.objects.get(id=pk).random_card_num()
+    else:
+        random_list = random.sample(range(1, 11), 5)
+        # ctx = {
+        #     'random_list': random_list,
+        #     'counters' : counters,
+        # }
+    return render(request, "game/counterattack.html", {'random_list': random_list, })
+
 
 class LoginView(View):
     def get(self, request):
@@ -48,7 +120,7 @@ class LoginView(View):
 
         return render(request, "game/login.html", {"form": form})
 
+
 def log_out(request):
     logout(request)
     return render(request, "game/main.html")
-
