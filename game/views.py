@@ -33,7 +33,7 @@ def main(request):
     return render(request, "game/main.html")
 
 
-def game_attack(request, pk):
+def game_attack(request):
     if request.method == "POST":
         CardGame(host=request.user, guest=User.objects.get(
             username=request.POST['picked_cp']), host_card=request.POST['picked_card']).save()
@@ -42,13 +42,31 @@ def game_attack(request, pk):
         #random_list = User.objects.get(id=pk).random_card_num()
     else:
         random_list = random.sample(range(1, 11), 5)
-        counters = User.objects.exclude(pk=pk)
+        counters = User.objects.exclude(username = request.user.username )
         # ctx = {
         #     'random_list': random_list,
         #     'counters' : counters,
         # }
     return render(request, "game/attack.html", {'random_list': random_list,
                                                 'counters': counters, })
+
+def game_counterattack(request, pk):
+    if request.method == "POST":
+        game = CardGame.objects.get(id=pk)
+        game.guest_card = request.POST['picked_card']
+        
+        game.is_end = True
+        game.save()
+
+        return redirect('game:game_result')
+        #random_list = User.objects.get(id=pk).random_card_num()
+    else:
+        random_list = random.sample(range(1, 11), 5)
+        # ctx = {
+        #     'random_list': random_list,
+        #     'counters' : counters,
+        # }
+    return render(request, "game/counterattack.html", {'random_list': random_list, })
 
 
 class LoginView(View):

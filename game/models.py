@@ -29,6 +29,8 @@ class CardGame(models.Model):
     host_card = models.PositiveIntegerField(default=0)
     guest_card = models.PositiveIntegerField(default=0)
 
+    is_end = models.BooleanField(default=False)
+
     rule = models.CharField(max_length=50, choices=RULE_CHOICES )
 
     result = models.CharField(max_length=50)
