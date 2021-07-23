@@ -20,8 +20,7 @@
             {% if game.is_end == False %}
                 {% if user.username == game.host.username %}
                     진행중...
-                    {% comment %} <a href="{% url 'game:game_delete' %}">게임 취소</a> {% endcomment %}
-                    게임 취소
+                    <a href="{% url 'game:game_delete' game.id %}">게임 취소</a>
 
 
                 {% comment %} {% if user.username == game.host %} {% endcomment %}

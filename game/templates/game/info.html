@@ -18,7 +18,7 @@
                 <br />
                 나: {{ game.host_card }}
                 <br />
-                게임 취소
+                <a href="{% url 'game:game_delete' game.id %}">게임 취소</a>
                 <br />
                 <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
                 {% else %}
