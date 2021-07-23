@@ -4,23 +4,33 @@
 
 <body>
 
-    <h3>{{game.cp}}에게 반격하세요!</h3>
 
-    <hr/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 200px; height: 345px;">
+        <i class="fas fa-gamepad fa-4x" style="color: orange;"></i>
+        <form action="" method="POST" style="width: 450px;">
+            {% csrf_token %}
+            <h3>{{ game.host.username }}에게 반격하세요!</h3>
 
-    <h3>현재 플레이어: {{user.name}}</h3> 
+            <hr style="height: 2px;" />
 
-    <label for="picked_card">내가 고른 카드</label>
-    <select name="picked_card">
-        {% for num in card_numbers %}
-        <option value="{{num}}">{{num}}</option>
-    </select>
+            <h3>현재 플레이어: {{ game.guest.username }}</h3> 
 
-    <label for="picked_cp">공격할 상대방</label>
-    <select name="picked_cp">
-        {% for cp in users %}
-        <option value="{{cp}}">{{cp}}</option>
-    </select>
-    <input type="submit" value="반격하기!">
+            <label for="picked_card">내가 고른 카드</label>
+            <select name="picked_card">
+                {% for num in random_list %}
+                <option value="{{num}}">{{num}}</option>
+                {% endfor %}
+            </select>
+
+
+            <input type="submit" class="btn btn-outline-danger" value="반격하기!">
+        </form>
+    </div>
+
+    
 
 {% endblock %}

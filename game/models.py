@@ -11,17 +11,12 @@ class User(AbstractUser):
     password = models.CharField(max_length=50)
     score = models.IntegerField(default=0)
 
+    rank = models.PositiveIntegerField(default=0)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class CardGame(models.Model):
-    MORE = '숫자가 더 큰 사람'
-    LESS = '숫자가 더 적은 사람'
-
-    RULE_CHOICES = (
-        (MORE, '숫자가 더 큰 사람'),
-        (LESS, '숫자가 더 적은 사람')
-    )
 
     host = models.ForeignKey(User, on_delete=CASCADE, related_name='game_host')
     guest = models.ForeignKey(User, on_delete=CASCADE, related_name='game_guest')
@@ -29,7 +24,9 @@ class CardGame(models.Model):
     host_card = models.PositiveIntegerField(default=0)
     guest_card = models.PositiveIntegerField(default=0)
 
-    rule = models.CharField(max_length=50, choices=RULE_CHOICES )
+    is_end = models.BooleanField(default=False)
+
+    rule = models.CharField(max_length=50, blank=True)
 
     result = models.CharField(max_length=50)
 

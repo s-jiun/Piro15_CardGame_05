@@ -15,5 +15,8 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     # # logout
     path("logout/", views.log_out, name="logout"),
-    path('attack/<int:pk>/', views.game_attack, name='attack'),
+    path('attack/', views.game_attack, name='attack'),
+    path('counterattack/<int:pk>/', views.game_counterattack, name='counterattack'),
+
+    path('game_delete/<int:pk>/', views.game_delete, name='game_delete'),
 ]
