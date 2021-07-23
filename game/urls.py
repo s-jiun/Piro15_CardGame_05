@@ -21,4 +21,7 @@ urlpatterns = [
 
     ##ranking podium
     path('podium/', views.game_podium, name='podium'),
+    path('attack/', views.game_attack, name='attack'),
+    path('counterattack/<int:pk>/', views.game_counterattack, name='counterattack'),
+    path('game_delete/<int:pk>/', views.game_delete, name='game_delete'),
 ]
