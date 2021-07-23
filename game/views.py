@@ -72,7 +72,9 @@ def game_counterattack(request, pk):
         game.rule = rand_rule
         game.is_end = True
         h_card = int(game.host_card)
-        g_card = int(game.guest_card)
+        g_card = int(g_card)
+        game.guest_card = g_card
+
         if rand_rule == 'more':
             if h_card > g_card:
                 game.result = 'win'
