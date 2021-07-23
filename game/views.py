@@ -93,11 +93,6 @@ def game_counterattack(request, pk):
             else:
                 game.result = 'lose'
 
-<<<<<<< HEAD
-=======
-        game.save()
-
->>>>>>> gunwoong2
         if game.result == 'win':
             game.host.score += h_card
             game.guest.score -= g_card
@@ -114,19 +109,11 @@ def game_counterattack(request, pk):
         #random_list = User.objects.get(id=pk).random_card_num()
     else:
         random_list = random.sample(range(1, 11), 5)
-<<<<<<< HEAD
         ctx = {
             'random_list': random_list,
             'game' : game,
         }
     return render(request, "game/counterattack.html", context=ctx)
-=======
-        # ctx = {
-        #     'random_list': random_list,
-        #     'counters' : counters,
-        # }
-    return render(request, "game/counterattack.html", {'random_list': random_list, 'counter':game.host})
->>>>>>> gunwoong2
 
 
 class LoginView(View):
