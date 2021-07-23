@@ -24,8 +24,18 @@ def game_result(request):
 
 def game_podium(request):
     # 점수에 따라 ordering하여 가져옴
-    users = User.objects.all()
-    ctx = {'users': users}
+    users = User.objects.all().order_by('-score')
+
+    players = User.objects.count() #유저 개수
+
+    i = 1
+    for user in users:
+        user.rank = i
+        i += 1
+    
+    ctx = {'users': users,
+    "players": players,
+        }
     return render(request, 'game/game_podium.html', context=ctx)
 
 
