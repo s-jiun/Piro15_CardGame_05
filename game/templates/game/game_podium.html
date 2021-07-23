@@ -5,9 +5,9 @@
 
     <hr/><hr/><hr/><hr/><hr/><hr/>
     <h3>Piro 명예의 전당 </h3>
-
+    
     {% for user in users %}
-        {{ user.username}} ! 총점수: {{ user.score }}
+        랭킹 : {{user.rank }} 등 : {{ user.username}} 님 ! 총점수: {{ user.score }}
         <br>
         
     {% endfor %}    
