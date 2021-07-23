@@ -17,4 +17,8 @@ urlpatterns = [
     path("logout/", views.log_out, name="logout"),
     path('attack/', views.game_attack, name='attack'),
     path('counterattack/<int:pk>/', views.game_counterattack, name='counterattack'),
+
+
+    ##ranking podium
+    path('podium/', views.game_podium, name='podium'),
 ]
