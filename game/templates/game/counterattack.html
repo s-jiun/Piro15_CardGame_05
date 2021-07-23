@@ -13,11 +13,11 @@
         <i class="fas fa-gamepad fa-4x" style="color: orange;"></i>
         <form action="" method="POST" style="width: 450px;">
             {% csrf_token %}
-            <h3>{{game.host}}에게 반격하세요!</h3>
+            <h3>{{ game.host.username }}에게 반격하세요!</h3>
 
             <hr style="height: 2px;" />
 
-            <h3>현재 플레이어: {{user.name}}</h3> 
+            <h3>현재 플레이어: {{ game.guest.username }}</h3> 
 
             <label for="picked_card">내가 고른 카드</label>
             <select name="picked_card">
@@ -27,7 +27,7 @@
             </select>
 
 
-            <input type="submit" value="반격하기!">
+            <input type="submit" class="btn btn-outline-danger" value="반격하기!">
         </form>
     </div>
 
