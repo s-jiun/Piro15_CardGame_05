@@ -11,13 +11,14 @@ from django.http import HttpResponse
 
 # Create your views here.
 def game_info(request, pk):
-    info = CardGame.objects.get(id=pk)
-    ctx = {'info': info}
+    game = CardGame.objects.get(id=pk)
+    ctx = {'game': game}
     return render(request, 'game/info.html', context=ctx)
 
 
 def game_result(request):
-    results = CardGame.objects.filter(host = request.user)|CardGame.objects.filter(guest = request.user)
+    results = CardGame.objects.filter(
+        host=request.user) | CardGame.objects.filter(guest=request.user)
     ctx = {'results': results}
     return render(request, 'game/result.html', context=ctx)
 
@@ -42,7 +43,7 @@ def game_attack(request):
         #random_list = User.objects.get(id=pk).random_card_num()
     else:
         random_list = random.sample(range(1, 11), 5)
-        counters = User.objects.exclude(username = request.user.username )
+        counters = User.objects.exclude(username=request.user.username)
         # ctx = {
         #     'random_list': random_list,
         #     'counters' : counters,
@@ -50,12 +51,12 @@ def game_attack(request):
     return render(request, "game/attack.html", {'random_list': random_list,
                                                 'counters': counters, })
 
+
 def game_counterattack(request, pk):
     if request.method == "POST":
         game = CardGame.objects.get(id=pk)
         g_card = request.POST['picked_card']
 
-        
         rules = ['more', 'less']
         rand_rule = random.choice(rules)
         game.rule = rand_rule
@@ -63,12 +64,9 @@ def game_counterattack(request, pk):
         h_card = int(game.host_card)
         g_card = int(game.guest_card)
         if rand_rule == 'more':
-            print(type(h_card))
-            print(type(g_card))
-
             if h_card > g_card:
                 game.result = 'win'
-                
+
             elif h_card == g_card:
                 game.result = 'draw'
             else:
