@@ -6,7 +6,7 @@ from .forms import UserForm, CardGameForm
 from . import forms
 from django.contrib.auth import authenticate, login, logout
 import random
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -15,7 +15,7 @@ def game_info(request, pk):
     ctx = {'game': game}
     return render(request, 'game/info.html', context=ctx)
 
-
+@login_required(login_url='')
 def game_result(request):
     results = CardGame.objects.filter(
         host=request.user) | CardGame.objects.filter(guest=request.user)
@@ -43,7 +43,7 @@ def game_podium(request):
 def main(request):
     return render(request, "game/main.html")
 
-
+@login_required(login_url='')
 def game_attack(request):
     if request.method == "POST":
         CardGame(host=request.user, guest=User.objects.get(
