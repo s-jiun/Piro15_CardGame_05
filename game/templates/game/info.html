@@ -1,41 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="d-flex justify-content-center align-items-center attack-box" style="margin-top: 200px; height: 345px; margin-bottom: 216px;">
+        <form action="" method="POST" style="width: 450px;">
+            {% csrf_token %}
+            <h3>{{game.pk}}-{{game.host}} VS {{game.guest}}</h3>
 
-    <ul>
-        <li>
-            {{ info.pk }} - {{ info.player1 }} vs {{ info.player2 }}
-        </li>
+            <br/>
 
-        <li>
-        {{ info.rule }}
-        </li>
+            {% if game.is_end == False %}
+                {% if user.username == game.host.username %}
+                진행중...
+                <br />
+                나: {{ game.host_card }}
+                <br />
+                게임 취소
+                <br />
+                <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
+                {% else %}
+                    <a href="{% url 'game:counterattack' game.pk %}" class="btn btn-outline-success">대응하기</a>
+                    <hr />
+                    <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
+                {% endif %}
 
-        <li>
-        {{ info.player1 }} : {{ info.player1_card}}
-        </li>
-
-        <li>
-        {{ info.player2 }} : {{ info.player2_card}}
-        </li>
-
-        <li>
-            결과: {{ info.result }}
-        </li>
-
-        <li>
-            점수: {{ info.my_score }}
-        </li>
-
-
-    </ul>
-    <p>
-        전적 목록
-    </p>
-
-    
-
-
+            {% else %}  
+            <hr />        
+            {% if game.rule == 'more' %} 
+                숫자가 더 큰 사람이 대결에서 이깁니다.
+            {% else %}
+                숫자가 더 작은 사람이 대결에서 이깁니다.
+            {% endif %}
+            <hr />    
+            {% if user.username == game.host.username %}
+                나: {{ game.host_card }}
+                <br />
+                {{ game.guest }}: {{ game.guest_card }}
+            {% else %}
+                나: {{ game.guest_card }}
+                <br />
+                {{ game.host }}: {{ game.host_card }}
+            {% endif %}
+            <hr />
+            {% if user.username == game.host.username %}
+                {{ game.result }}
+            {% else %}
+                    {% if game.result == 'win' %}
+                        결과: lose
+                    {% elif game.result == 'lose' %}
+                        결과: win
+                    {% else %}
+                        결과: draw
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            <hr />
+            {% if user.username == game.host.username %}
+                점수: {{ game.host.score }}
+            {% else %}
+                점수: {{ game.guest.score }}
+            {% endif %}
+            <br />
+            <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
+        </form>
+    </div>
 {% endblock content %}
 
 

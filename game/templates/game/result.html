@@ -17,8 +17,6 @@
     {% for game in results %}
         <div>
             <span>{{game.pk}}-{{game.host}} VS {{game.guest}}</span>
-            
-            {% comment %} {% if game.ended %} {% endcomment %}
             {% if game.is_end == False %}
                 {% if user.username == game.host.username %}
                     진행중...
@@ -50,7 +48,7 @@
             {% endif %}
                 
 
-            <span><a href="">게임정보</a></span>
+            <span><a href="{% url 'game:game_info' game.pk %}">게임정보</a></span>
         </div>
 
     {% endfor %}
