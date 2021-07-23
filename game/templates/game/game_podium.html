@@ -10,9 +10,14 @@
         <h3>Piro 명예의 전당 </h3>
         
         {% for user in users %}
-            <p style="font-size: 25px;">랭킹 {{user.rank }} 등 : {{ user.username}} 님 !  [ 총점수: {{ user.score }} ] </p>
+            {% if user.rank == 1%}
+                <p style="font-size: 25px; color: #FF0000; font-weight: bold">랭킹 {{user.rank }} 등 : {{ user.username}} 님 !  [ 총점수: {{ user.score }} ] </p>
+            {% else %}
+                <p style="font-size: 25px;">랭킹 {{user.rank }} 등 : {{ user.username}} 님 !  [ 총점수: {{ user.score }} ] </p>
+            {% endif %}
         {% endfor %}  
         <hr style="height: 2px;" />
+        <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
     </div>
 
 {% endblock %}

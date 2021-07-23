@@ -19,6 +19,7 @@ def game_info(request, pk):
 def game_result(request):
     results = CardGame.objects.filter(
         host=request.user) | CardGame.objects.filter(guest=request.user)
+    results = results.order_by('-pk')
     ctx = {'results': results}
     return render(request, 'game/result.html', context=ctx)
 
@@ -90,6 +91,7 @@ def game_counterattack(request, pk):
                 game.result = 'draw'
             else:
                 game.result = 'lose'
+
         if game.result == 'win':
             game.host.score += h_card
             game.guest.score -= g_card
