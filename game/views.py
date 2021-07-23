@@ -63,17 +63,20 @@ def game_attack(request):
 
 
 def game_counterattack(request, pk):
+    game = CardGame.objects.get(id=pk)
     if request.method == "POST":
-        game = CardGame.objects.get(id=pk)
+        
         g_card = request.POST['picked_card']
+        h_card=game.host_card
 
         rules = ['more', 'less']
         rand_rule = random.choice(rules)
         game.rule = rand_rule
         game.is_end = True
-        h_card = int(game.host_card)
-        g_card = int(g_card)
         game.guest_card = g_card
+        h_card = int(h_card)
+        g_card = int(g_card)
+        
 
         if rand_rule == 'more':
             if h_card > g_card:
@@ -90,6 +93,9 @@ def game_counterattack(request, pk):
                 game.result = 'draw'
             else:
                 game.result = 'lose'
+
+        game.save()
+
         if game.result == 'win':
             game.host.score += h_card
             game.guest.score -= g_card
@@ -100,7 +106,7 @@ def game_counterattack(request, pk):
 
         game.host.save()
         game.guest.save()
-        game.save()
+        
 
         return redirect('game:game_result')
         #random_list = User.objects.get(id=pk).random_card_num()
@@ -110,7 +116,7 @@ def game_counterattack(request, pk):
         #     'random_list': random_list,
         #     'counters' : counters,
         # }
-    return render(request, "game/counterattack.html", {'random_list': random_list, })
+    return render(request, "game/counterattack.html", {'random_list': random_list, 'counter':game.host})
 
 
 class LoginView(View):
