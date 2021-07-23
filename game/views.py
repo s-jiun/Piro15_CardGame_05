@@ -17,7 +17,7 @@ def game_info(request, pk):
 
 
 def game_result(request):
-    results = CardGame.objects.all()
+    results = CardGame.objects.filter(host = request.user)|CardGame.objects.filter(guest = request.user)
     ctx = {'results': results}
     return render(request, 'game/result.html', context=ctx)
 
@@ -53,36 +53,40 @@ def game_attack(request):
 def game_counterattack(request, pk):
     if request.method == "POST":
         game = CardGame.objects.get(id=pk)
-        game.guest_card = request.POST['picked_card']
+        g_card = request.POST['picked_card']
 
         
         rules = ['more', 'less']
         rand_rule = random.choice(rules)
         game.rule = rand_rule
         game.is_end = True
-
+        h_card = int(game.host_card)
+        g_card = int(game.guest_card)
         if rand_rule == 'more':
-            if game.host_card > game.guest_card:
+            print(type(h_card))
+            print(type(g_card))
+
+            if h_card > g_card:
                 game.result = 'win'
                 
-            elif game.host_card == game.guest_card:
+            elif h_card == g_card:
                 game.result = 'draw'
             else:
                 game.result = 'lose'
         else:
-            if game.host_card < game.guest_card:
+            if h_card < g_card:
                 game.result = 'win'
-            elif game.host_card == game.guest_card:
+            elif h_card == g_card:
                 game.result = 'draw'
             else:
                 game.result = 'lose'
         if game.result == 'win':
-            game.host.score += game.host_card
-            game.guest.score -= game.guest_card
+            game.host.score += h_card
+            game.guest.score -= g_card
 
         elif game.result == 'lose':
-            game.host.score -= game.host_card
-            game.guest.score += game.guest_card
+            game.host.score -= h_card
+            game.guest.score += g_card
 
         game.host.save()
         game.guest.save()

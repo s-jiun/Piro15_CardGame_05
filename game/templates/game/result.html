@@ -28,11 +28,12 @@
 
                 {% comment %} {% if user.username == game.host %} {% endcomment %}
                 {% else %}
-                    <a href="{% url 'game:counterattack' %}">반격 하기</a>
+                    <a href="{% url 'game:counterattack' game.pk %}">반격 하기</a>
                     
 
                 {% endif %}
-            {% else %}                
+            {% else %}          
+            {{ game.rule }}      
                 {% if user.username == game.host.username %}
                     {{ game.result }}
 
