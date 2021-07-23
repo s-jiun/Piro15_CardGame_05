@@ -5,7 +5,9 @@
     <br/>
     <br/>
     <br/>
-    <div class="d-flex justify-content-center align-items-center attack-box" style="margin-top: 200px; height: 345px; margin-bottom: 216px;">
+    <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 200px; height: 345px;">
+        <i class="fas fa-gamepad fa-4x" style="color: orange;"></i>
+        <br />
         <form action="" method="POST" style="width: 450px;">
             {% csrf_token %}
             <h3>{{game.pk}}-{{game.host}} VS {{game.guest}}</h3>
@@ -29,14 +31,18 @@
 
             {% comment %} 게임 끝난 경우  {% endcomment %}
             {% else %}  
-            <hr />        
+            <hr style="height: 2px;" />        
             {% if game.rule == 'more' %} 
                 숫자가 더 큰 사람이 대결에서 이깁니다.
             {% else %}
                 숫자가 더 작은 사람이 대결에서 이깁니다.
             {% endif %}
+<<<<<<< HEAD
+            <hr style="height: 2px;" />    
+=======
             <hr />    
             나 ({{ user.username }}) :
+>>>>>>> jiun-s
             {% if user.username == game.host.username %}
                 {{ game.host_card }}
                 <br />
@@ -46,7 +52,7 @@
                 <br />
                 {{ game.host }}: {{ game.host_card }}
             {% endif %}
-            <hr />
+            <hr style="height: 2px;" />
             {% if user.username == game.host.username %}
                 결과: {{ user.username}} {{ game.result }}
             {% else %}
@@ -59,6 +65,14 @@
                         draw
                     {% endif %}
                 {% endif %}
+<<<<<<< HEAD
+            {% endif %}
+            <hr style="height: 2px;" />
+            {% if user.username == game.host.username %}
+                점수: {{ game.host.score }}
+            {% else %}
+                점수: {{ game.guest.score }}
+=======
             
             <hr />
                 {% if user.username == game.host.username %}
@@ -68,6 +82,7 @@
                 {% endif %}
                 <br />
                 <a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적목록</a>
+>>>>>>> jiun-s
             {% endif %}
         </form>
     </div>
