@@ -25,8 +25,18 @@ def game_result(request):
 
 def game_podium(request):
     # 점수에 따라 ordering하여 가져옴
-    users = User.objects.all()
-    ctx = {'users': users}
+    users = User.objects.all().order_by('-score')
+
+    players = User.objects.count() #유저 개수
+
+    i = 1
+    for user in users:
+        user.rank = i
+        i += 1
+    
+    ctx = {'users': users,
+    "players": players,
+        }
     return render(request, 'game/game_podium.html', context=ctx)
 
 
@@ -62,7 +72,9 @@ def game_counterattack(request, pk):
         game.rule = rand_rule
         game.is_end = True
         h_card = int(game.host_card)
-        g_card = int(game.guest_card)
+        g_card = int(g_card)
+        game.guest_card = g_card
+
         if rand_rule == 'more':
             if h_card > g_card:
                 game.result = 'win'
@@ -126,3 +138,8 @@ class LoginView(View):
 def log_out(request):
     logout(request)
     return render(request, "game/main.html")
+
+def game_delete(request, pk):
+    game = CardGame.objects.get(id=pk)
+    game.delete()
+    return redirect('game:game_result')
