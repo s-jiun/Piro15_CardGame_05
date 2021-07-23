@@ -64,8 +64,9 @@ def game_attack(request):
 
 
 def game_counterattack(request, pk):
+    game = CardGame.objects.get(id=pk)
+
     if request.method == "POST":
-        game = CardGame.objects.get(id=pk)
         g_card = request.POST['picked_card']
 
         rules = ['more', 'less']
@@ -108,11 +109,11 @@ def game_counterattack(request, pk):
         #random_list = User.objects.get(id=pk).random_card_num()
     else:
         random_list = random.sample(range(1, 11), 5)
-        # ctx = {
-        #     'random_list': random_list,
-        #     'counters' : counters,
-        # }
-    return render(request, "game/counterattack.html", {'random_list': random_list, })
+        ctx = {
+            'random_list': random_list,
+            'game' : game,
+        }
+    return render(request, "game/counterattack.html", context=ctx)
 
 
 class LoginView(View):
