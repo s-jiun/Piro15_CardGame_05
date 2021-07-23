@@ -15,6 +15,7 @@ def game_info(request, pk):
     ctx = {'game': game}
     return render(request, 'game/info.html', context=ctx)
 
+
 @login_required(login_url='')
 def game_result(request):
     results = CardGame.objects.filter(
@@ -28,21 +29,22 @@ def game_podium(request):
     # 점수에 따라 ordering하여 가져옴
     users = User.objects.all().order_by('-score')
 
-    players = User.objects.count() #유저 개수
+    players = User.objects.count()  # 유저 개수
 
     i = 1
     for user in users:
         user.rank = i
         i += 1
-    
+
     ctx = {'users': users,
-    "players": players,
-        }
+           "players": players,
+           }
     return render(request, 'game/game_podium.html', context=ctx)
 
 
 def main(request):
     return render(request, "game/main.html")
+
 
 @login_required(login_url='')
 def game_attack(request):
@@ -92,7 +94,7 @@ def game_counterattack(request, pk):
                 game.result = 'draw'
             else:
                 game.result = 'lose'
-
+        game.save()
         if game.result == 'win':
             game.host.score += h_card
             game.guest.score -= g_card
@@ -103,7 +105,6 @@ def game_counterattack(request, pk):
 
         game.host.save()
         game.guest.save()
-        
 
         return redirect('game:game_result')
         #random_list = User.objects.get(id=pk).random_card_num()
@@ -111,7 +112,7 @@ def game_counterattack(request, pk):
         random_list = random.sample(range(1, 11), 5)
         ctx = {
             'random_list': random_list,
-            'game' : game,
+            'game': game,
         }
     return render(request, "game/counterattack.html", context=ctx)
 
@@ -141,6 +142,7 @@ class LoginView(View):
 def log_out(request):
     logout(request)
     return render(request, "game/main.html")
+
 
 def game_delete(request, pk):
     game = CardGame.objects.get(id=pk)
