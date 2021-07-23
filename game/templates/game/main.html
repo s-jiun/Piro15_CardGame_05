@@ -15,8 +15,8 @@
                     <h4><a href="{% url 'game:attack' %}" class="btn btn-outline-success">게임하기</a></h4>
                     <h4><a href="{% url 'game:game_result' %}" class="btn btn-outline-success">전적보기</a></h4>
                 {%else%}
-                    <a class="nav-link" href="{% url 'game:login' %}">로그인</a>
-                    <a class="nav-link" href="/accounts/signup">회원가입</a>
+                    <a class="nav-link btn btn-sm btn-outline-success" href="{% url 'game:login' %}" style="padding : 10px 10px">로그인</a>
+                    <a class="nav-link btn btn-sm btn-outline-success" href="/accounts/signup">회원가입</a>
                 {%endif %}
                 </div>
             </div>
